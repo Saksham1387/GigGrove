@@ -1,0 +1,127 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Sequence {
+  id    String @id @default(cuid()) @map("_id")
+  model String @unique
+  value Int
+}
+
+model Client {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  username     String
+  email        String        @unique
+  password     String
+  website      String?
+  Location     String?
+  Logo         String?
+  NoOfEmployees Int?
+  Markets      String?
+  OneLiner     String?
+  role         String        @default("client")
+  jobs         Job[]         @relation("ClientJobs")
+  transactions Transaction[] @relation("ClientTransactions")
+  contracts    Contract[]    @relation("ClientContracts")
+}
+
+model Contract {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  clientId         String   @db.ObjectId
+  client           Client   @relation("ClientContracts", fields: [clientId], references: [id])
+  workerId         String   @db.ObjectId
+  worker           Worker   @relation("WorkerContracts", fields: [workerId], references: [id])
+  jobId            String   @db.ObjectId
+  job              Job      @relation("JobContracts", fields: [jobId], references: [id])
+  contractContent  String   // Could be a file URL or a text field storing the contract
+  clientSigned     Boolean  @default(false)  // Has the client signed the contract
+  workerSigned     Boolean  @default(false)  // Has the worker signed the contract
+  signedAt         DateTime? // Time both parties signed
+  status           String   @default("pending")  // Status: pending, signed, rejected
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+
+
+model Worker {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  fullname     String?
+  username     String
+  Location     String?
+  email        String        @unique
+  password     String
+  skills       String[]
+  cvlink       String?
+  about        String?
+  role         String        @default("worker")
+  jobs         Job[]         @relation("WorkerJobs")
+  bids         Bid[]         @relation("WorkerBids")
+  transactions Transaction[] @relation("WorkerTransactions")
+  contracts    Contract[]    @relation("WorkerContracts")
+}
+
+model Job {
+  id               String        @id @default(auto()) @map("_id") @db.ObjectId
+  category         String?       @default("Others")
+  title            String
+  description      String
+  typeOfJob        String        // "oneTime", "recurring"
+  skills           String[]
+  typeOfposition   String        // "fullTime", "partTime", "contract"
+  workExperience   String        // "entry", "mid", "senior"
+  budget           Float
+  clientId         String        @db.ObjectId
+  client           Client        @relation("ClientJobs", fields: [clientId], references: [id])
+  fileHashes       String[]
+  status           String        // "open", "inProgress", "completed"
+  assignedWorkerId String?       @db.ObjectId
+  assignedWorker   Worker?       @relation("WorkerJobs", fields: [assignedWorkerId], references: [id])
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+  selectedBidId    String?       @unique @db.ObjectId
+  selectedBid      Bid?          @relation(fields: [selectedBidId], references: [id], name: "SelectedBid", onDelete: NoAction, onUpdate: NoAction)
+  transactions     Transaction[]
+  bids             Bid[]         @relation("JobBids")
+  contracts        Contract[]    @relation("JobContracts")
+}
+
+model Bid {
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  jobId            String   @db.ObjectId
+  job              Job      @relation("JobBids", fields: [jobId], references: [id])
+  workerId         String   @db.ObjectId
+  worker           Worker   @relation("WorkerBids", fields: [workerId], references: [id])
+  bidAmount        Float
+  bidDate          DateTime @default(now())
+  status           String // "pending", "accepted", "rejected"
+  selectedForJob   Job?     @relation("SelectedBid")
+  presentationUrl  String?
+  presentationFile String?
+}
+
+model Transaction {
+  id                  String   @id @default(auto()) @map("_id") @db.ObjectId
+  jobId               String   @db.ObjectId
+  job                 Job      @relation(fields: [jobId], references: [id])
+  workerId            String   @db.ObjectId
+  worker              Worker   @relation("WorkerTransactions", fields: [workerId], references: [id])
+  clientId            String   @db.ObjectId
+  client              Client   @relation("ClientTransactions", fields: [clientId], references: [id])
+  amount              Float
+  transactionDate     DateTime @default(now())
+  solanaEscrowAddress String
+}
+
+//Contract 
