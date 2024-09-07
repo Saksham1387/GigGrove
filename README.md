@@ -1,81 +1,81 @@
-# Turborepo starter
+Here's a sample `README.md` file for your project "GigGrove":
 
-This is an official starter Turborepo.
+---
 
-## Using this example
+# GigGrove
 
-Run the following command:
+**GigGrove** is a freelancing platform designed to create a trustless environment for clients and workers through the use of escrow contracts. This ensures that payments are securely held until the agreed-upon work is completed, offering both parties peace of mind.
 
-```sh
-npx create-turbo@latest
+## Features
+
+- **Escrow Contracts**: Funds are securely held in escrow until the project is completed, ensuring trust between clients and workers.
+- **Client and Worker Dashboards**: Separate portals for clients and workers to manage projects, tasks, and payments.
+- **Contract Management**: Both parties can create, view, and sign contracts based on templates to formalize their agreements.
+- **TurboRepo**: Monorepo structure with three apps (client, worker, backend) to maintain scalability and a streamlined development process.
+
+## Project Structure
+
+This project is a **TurboRepo** that contains the following apps:
+
+1. **Client App**: Frontend for clients to post jobs, manage contracts, and handle payments.
+2. **Worker App**: Frontend for workers to browse jobs, accept contracts, and submit work.
+3. **Backend**: API that powers both the client and worker apps, manages contract and payment workflows, and handles authentication.
+
+### Directory Structure
+```
+/giggrove
+|-- /apps
+|   |-- /client       # Client-side application
+|   |-- /worker       # Worker-side application
+|   |-- /backend      # Backend API and services
+|-- /packages
+|   |-- /ui           # Shared UI components
+|   |-- /utils        # Shared utilities and helper functions
+|-- turbo.json        # TurboRepo configuration
 ```
 
-## What's inside?
+## Tech Stack
 
-This Turborepo includes the following packages/apps:
+- **Frontend**: React, Next.js
+- **Backend**: Node.js, Express
+- **Database**: MongoDB
+- **Escrow Contracts**: Solana smart contracts
+- **File Storage**: IPFS (InterPlanetary File System)
+- **Authentication**: NextAuth
 
-### Apps and Packages
+## Installation
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Saksham1387/GigGrove.git
+   ```
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+3. Start development:
+   ```bash
+   pnpm turbo dev
+   ```
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Environment Variables
 
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd my-turborepo
-pnpm build
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
+Create a `.env` file in the root of the project with the following variables:
 
 ```
-cd my-turborepo
-pnpm dev
+DATABASE_URL=<your-database-url>
+NEXTAUTH_URL=<your-nextauth-url>
+BACKEND_URL=<your-backend-url>
 ```
 
-### Remote Caching
+## Contributing
 
-Turborepo can use a technique known as [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
+We welcome contributions! Please submit a pull request or open an issue if you'd like to improve GigGrove.
 
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup), then enter the following commands:
+## License
 
-```
-cd my-turborepo
-npx turbo login
-```
+This project is licensed under the MIT License.
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+---
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-npx turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turbo.build/repo/docs/core-concepts/monorepos/running-tasks)
-- [Caching](https://turbo.build/repo/docs/core-concepts/caching)
-- [Remote Caching](https://turbo.build/repo/docs/core-concepts/remote-caching)
-- [Filtering](https://turbo.build/repo/docs/core-concepts/monorepos/filtering)
-- [Configuration Options](https://turbo.build/repo/docs/reference/configuration)
-- [CLI Usage](https://turbo.build/repo/docs/reference/command-line-reference)
+Feel free to modify the content as per your project's requirements!
