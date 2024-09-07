@@ -1,7 +1,3 @@
-Here's a sample `README.md` file for your project "GigGrove":
-
----
-
 # GigGrove
 
 **GigGrove** is a freelancing platform designed to create a trustless environment for clients and workers through the use of escrow contracts. This ensures that payments are securely held until the agreed-upon work is completed, offering both parties peace of mind.
